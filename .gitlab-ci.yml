@@ -1,0 +1,19 @@
+variables:
+  DEBIAN_FRONTEND: 'noninteractive'
+
+workflow:
+  rules: 
+  if: $CI_COMMIT_BRANCH && CI_OPEN_MERGE_REQUESTS && CI_PIPELINE_SOURCE == "push" 
+  if: $CI_PIPELINE_SOURCE == "merge_request_event" 
+  if: $CI_COMMIT_BRANCH && $CI_BRANCH && $CI_OPEN_MERGE_REQUESTS 
+
+stages: 
+  - deploy 
+
+deploy:
+  stage: test
+    script:
+      - echo "running sonar"
+    trigger: 
+      project: https://gitlab.com/KellyRyanGlobal/logger-trace
+      strategy: depend
